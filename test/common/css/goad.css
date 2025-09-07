@@ -125,7 +125,7 @@ body {
   background: #fff;
   margin: 0 auto;
   letter-spacing: -0.02em;
-  height: 100vh;
+  height: 100svh;
   overflow: hidden;
 }
 
@@ -670,7 +670,7 @@ input::-moz-placeholder {
 
 .p_exe .list_sec {
   box-sizing: border-box;
-  max-height: calc(100vh - 274px) !important;
+  max-height: calc(100svh - 274px) !important;
   overflow: auto;
 }
 
@@ -1168,7 +1168,7 @@ input::-moz-placeholder {
 
 /* 신규 서브페이지 */
 .sub_page {
-  height: calc(100vh - 56px);
+  height: calc(100svh - 56px);
   padding: 0;
 }
 
@@ -1696,7 +1696,7 @@ input::-moz-placeholder {
 	width: calc(100% - 40px);
 	text-align: left;
 
-  max-height: 98vh;
+  max-height: 98svh;
   overflow: auto;
 }
 
@@ -1826,7 +1826,7 @@ input::-moz-placeholder {
 .img_layer_wrap .inner_wrap {
 	background-color: rgba(0, 0, 0, 0.9);
   box-sizing: border-box;
-  height: 100vh;
+  height: 100svh;
   left: 50%;
   overflow: auto;
   padding: 60px 20px 20px;
