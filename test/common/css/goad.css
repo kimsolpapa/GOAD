@@ -1383,7 +1383,7 @@ input::-moz-placeholder {
 }
 
 .pic_list > li {
-  width: calc(50% - 10px);
+  width: 140px;
 }
 
 .pic_list > li.no_item {
