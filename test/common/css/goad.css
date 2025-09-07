@@ -1649,7 +1649,7 @@ input::-moz-placeholder {
 
 .snap_btns button {
   background: #004E80;
-  border: 1px solid #3091D0;
+  border: 1px solid #004E80;
   border-radius: 8px;
   box-sizing: border-box;
   color: #fff;
@@ -1664,6 +1664,7 @@ input::-moz-placeholder {
 .snap_btns button.pic_ex {
   background: #fff url(../images/ico_take.png) center left 10px no-repeat;
   background-size: 16px;
+  border-color: #3091D0;
   color: #3091D0;
   padding: 0 10px 0 30px;
 }
