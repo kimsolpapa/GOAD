@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>검수상세 - 매체사(MD)</title>
+<!-- ///////////////////////////////////////////////////////////////////////////////////////////////////
+[META]    -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="title" content="">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="og:title" content="">
+<meta name="og:description" content="">
+<!-- ///////////////////////////////////////////////////////////////////////////////////////////////////
+[TITLE]   -->
+
+
+
+
+    <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////
+    [VARIABLE] -->
+    
+    
+    
+    <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////
+    [INCLUDE] -->
+    
+    <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////
+    [WEB-SITE] -->
+    <link rel="stylesheet" type="text/css" href="/test/common/css/goad.css?ver=20250903121830" />
+ 
+
+
+
+    <script type="text/javascript">
+    //<![CDATA[
+        var contextPath      = "/test";
+        var systemCurrDate   = "2025-09-03 12:18:30";
+    //]]>
+    </script>
+    <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////
+    [J-QUERY] -->
+    <script type="text/javascript" src="/test/common/js/jquery-1.12.4.min.js"></script>
+    <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////
+    [CUSTOM]  -->
+    <script type="text/javascript" src="/test/common/js/goad-common.js?ver=20250903121830"></script>
+    <script type="text/javascript" src="/test/common/datepicker/rolldate.min.js?ver=20250903121830"></script>
+
+    <!-- 250907 이미지 핀치줌 js파일 추가 -->
+    <script type="text/javascript" src="/test/common/js/pinch-zoom.js?ver=20250903191254"></script>
+     
+
+    <script type="text/javascript">
+    $(document).ready(function() {});
+    </script>
+
+<script>
+	function click_md_main() {
+		document.form_md.action = "/test/md_main.do";
+		document.form_md.submit();
+	}
+
+	// 검수사진 촬영
+	function click_takePhoto() {
+		document.form_md.action = "/test/md_photo.do";
+		document.form_md.submit();
+	}
+	
+	// 검수사진 삭제
+	async function click_delPhoto() {
+		const checkboxes = document.getElementsByName("photoChk");
+		const seqs = [];
+		let atchFileId = '';
+		
+		for (var i = 0; i < checkboxes.length; i++) {
+		    if (checkboxes[i].checked) {
+		    	seqs.push(checkboxes[i].dataset.seq);
+		    	atchFileId = checkboxes[i].dataset.fid;
+		    }
+		}
+		console.log('checkedValues', seqs);
+		
+		if (seqs.length === 0) {
+			alert('삭제할 사진을 선택하세요.');
+			return;
+		}
+		
+		if (!confirm('삭제하시겠습니까?')) {
+			return;
+		}
+		
+		const param = {
+			exmntNo: 'E20250819000006',
+			atchFileId: atchFileId,
+			seqs: seqs
+		};
+		console.log('param', param);
+		
+		try {
+			const res = await fetch(`/test/api/md/exmnt/photo.ajax`, { 
+				method: 'DELETE', 
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(param) 
+			});
+			const data = await res.json();
+			alert(data.MSG);
+			location.reload();
+		} catch (error) {
+			console.log('error', error);
+			alert('처리중 오류가 발생하셨습니다.');
+		}
+	}
+	
+	// 알림톡 발송
+	async function click_sendTalk() {
+		const param = {
+			EXMNT_NO: 'E20250819000006',
+			RCVER_NM: '홍길동',
+			RCVER_TEL_NO: '01011112222'
+		};
+			
+		try {
+			const res = await fetch(`/test/api/md/exmnt/talk.ajax`, { 
+				method: 'POST', 
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(param) 
+			});
+			const data = await res.json();
+			alert(data.MSG);
+		} catch (error) {
+			console.log('error', error);
+			alert('처리중 오류가 발생하였습니다.');
+		}
+	}
+</script>
+</head>
+<body>
+  
+	<form name="form_md" id="form_md" method="get" action="">
+		<input type="hidden" id="EXMNT_NO" name="EXMNT_NO" value="E20250819000006" />
+	</form>
+
+  <div id="header">
+    <div class="hsec1">
+      <div class="container">
+        <h1>
+          <a href="/test/md_main.do"><img src="/test/common/images/hd_logo.png" alt="한국언론진흥재단"/></a>
+        </h1>
+        <div class="gnb">
+          신봉교님<a href="#" onclick="logout();"><span class="blind">로그아웃</span></a>
+        </div>
+        <!--/lnb-->
+      </div>
+    </div>
+    <!--/hsec1-->
+  </div>
+
+	<div id="main" class="sub_page">
+
+    <a class="prev_page" href="/test/md_main.do">목록</a>
+
+		<div class="p_detail">
+
+			<div class="round_box detail_top">
+				<p class="num">
+          <span class="tit_text">의뢰번호</span>
+          <span class="num_text">25054536</span>
+        </p>
+				<p class="tit">fo생성서명테스트</p>
+				<div class="top_btns">
+					<div class="left_btn">
+
+            <!-- 팝업 열리는 동작으로 연결해 놓음 -->
+            <a href="javascript:void(0)" class="al_send" onclick="talk_pop_open();">알림톡발송</a>
+
+            <a href="javascript:void(0)" class="pic_ex" onclick="click_takePhoto();">사진촬영</a>
+          </div>
+          <div class="right_btn">
+            <a href="javascript:void(0)" class="pic_del" onclick="click_delPhoto();">사진삭제</a>
+          </div>
+				</div>
+			</div>
+
+			<div class="round_box detatil_cont">
+				<h3>기본정보</h3>
+				<ul class="detatil_info">
+          <li>
+            <p class="info_item">
+              <span class="info_tit">검수상태</span>
+              <span class="info_text">검수대기</span>
+            </p>
+          </li>
+          <li>
+            <p class="info_item">
+              <span class="info_tit">광고주</span>
+              <span class="info_text">한국언론진흥재단</span>
+            </p>
+          </li>
+          <li>
+            <p class="info_item">
+              <span class="info_tit">광고기간</span>
+              <span class="info_text">2025-03-01 ~ 2025-12-31</span>
+            </p>
+          </li>
+          <li>
+            <p class="info_item">
+              <span class="info_tit">매체</span>
+              <span class="info_text">공항-기둥</span>
+            </p>
+          </li>
+          <li>
+            <p class="info_item">
+              <span class="info_tit">매체사 담당자</span>
+              <span class="info_text">신봉교<br>연락처 : 010-1234-5678</span>
+            </p>
+          </li>
+          <li>
+            <p class="info_item">
+              <span class="info_tit">재단 담당자</span>
+              <span class="info_text">GOAD관리자_이윤창<br>연락처 : 010-2222-5678</span>
+            </p>
+          </li>
+
+				</ul>
+			</div>
+
+			<div class="round_box detatil_pic">
+				
+        <div class="pic_head">
+          <h3>검수사진</h3>
+          <div class="head_btns">
+            <button type="button" class="to_chk selected" onclick="to_chk()">사진선택</button>
+            <button type="button" class="to_pic" onclick="to_pic()">선택취소</button>
+          </div>
+        </div>
+
+        <ul class="pic_list pic_mode">
+          <!-- 항목이 없는 경우 -->
+          <li class="no_item">
+            <p>등록된 사진이 없습니다.</p>
+          </li>
+
+          <li>
+            <div class="pic_main">
+
+              <div class="pic_label">
+                <!-- 체크박스 id와 label for는 같은 걸로(중복없게) 들어가야 합니다. -->
+                <input id="pic01" name="photoChk" type="checkbox">
+                <label for="pic01"><span class="blind">선택</span></label>
+              </div>
+
+              <div class="img_wrap" onclick="on_pinchzoom(this)">
+                <img src="./test/common/images/dummy.png" id="img" alt="">
+              </div>
+
+            </div>
+            <div class="pic_detail">
+              <p>공덕역 1번출구</p>
+              <p>2025-07-18 13:46:57</p>
+              <p>대한민국, 서울특별시, 중구, 명동, 태평로1가</p>
+            </div>
+          </li>
+
+          <li>
+            <div class="pic_main">
+
+              <div class="pic_label">
+                <!-- 체크박스 id와 label for는 같은 걸로(중복없게) 들어가야 합니다. -->
+                <input id="pic02" name="photoChk" type="checkbox">
+                <label for="pic02"><span class="blind">선택</span></label>
+              </div>
+
+              <div class="img_wrap" onclick="on_pinchzoom(this)">
+                <img src="./test/common/images/dummy2.png" alt="">
+              </div>
+            </div>
+            <div class="pic_detail">
+              <p>공덕역 1번출구</p>
+              <p>2025-07-18 13:46:57</p>
+              <p>대한민국, 서울특별시, 중구, 명동, 태평로1가</p>
+            </div>
+          </li>
+
+        </ul>
+			</div>
+
+		</div>
+
+	</div>
+
+  <!-- 이미지 핀치줌 -->
+  <div class="img_layer_wrap">
+    <div class="inner_wrap">
+      <button type="button" class="close_img_layer"><span class="blind">이미지 닫기</span></button>
+      <div class="img_box">
+          
+      </div>
+    </div>
+  </div>
+
+  <!-- 팝업 -->
+  <div id="modal" class="modal">
+		<div class="modal-content">
+			<h4>모바일 웹 검수 알림톡 발송</h4>
+
+      <div class="input_block">
+        <!-- input id와 label for는 같은 걸로(중복없게) 들어가야 합니다. -->
+        <label for="s_name">수신자 이름</label>
+        <input type="text" id="s_name" placeholder="예: 홍길동"> 
+      </div>
+
+      <div class="input_block">
+        <!-- input id와 label for는 같은 걸로(중복없게) 들어가야 합니다. -->
+        <label for="s_num">수신자 번호</label>
+        <input type="text" id="s_num" placeholder="예: 01012349876"> 
+      </div>
+			  
+      <div class="pop_bottom_btns">
+        <button class="pop_btn is_confirm">확인</button>
+			  <button class="pop_btn" id="popcancel">취소</button>
+      </div>  
+		</div>
+	</div>
+
+  <!-- 상세 페이지 관련 스크립트 -->
+  <script>
+    $(function(){
+
+      // 스크롤 동작
+      $(".p_detail").on("scroll",function(){
+        if( $(".p_detail").scrollTop() > 10){
+          if( !$(".detail_top").hasClass("scrolled") ){
+            $(".detail_top").addClass("scrolled");
+          }
+        } else {
+          $(".detail_top").removeClass("scrolled");
+        }
+      });
+
+      // 이미지 사이즈 셋팅
+      $(".img_wrap").each(function(){
+        let box_size = $(this).outerHeight();
+        let img_size = $(this).children("img").outerHeight();
+        if( box_size > img_size ) {
+          $(this).addClass("height_base");
+        }
+      });
+
+      // 팝업 닫기
+      $("#popcancel").on("click",function(){
+        $(this).parents("#modal").hide();
+      });
+
+      // s:상단 고정 높이 셋팅
+      cal_hgt();
+      $(window).resize(function(){
+        clearTimeout(window.timer);
+        window.timer = setTimeout(function(){
+          cal_hgt();
+        }, 200);
+      });
+      // e:상단 고정 높이 셋팅
+
+      // 이미지 핀치 줌 레이어 닫기
+      $(".close_img_layer").on("click",function(){
+        $(this).parents(".img_layer_wrap").removeClass("img_on");
+        $(this).siblings(".img_box").html("");
+      });
+
+    });
+
+    // 사진선택 버튼 동작
+    function to_chk() {
+      $(".head_btns button").removeClass("selected");
+      $(".to_pic").addClass("selected");
+      $(".pic_list").removeClass("pic_mode").addClass("chk_mode");
+    }
+
+    // 선택취소 버튼 동작
+    function to_pic() {
+      $(".head_btns button").removeClass("selected");
+      $(".to_chk").addClass("selected");
+      $(".pic_list").removeClass("chk_mode").addClass("pic_mode");
+      $(".pic_main input[type=checkbox]").each(function(){
+        $(this).attr("checked",false);
+      });
+    }
+
+    //알림톡 팝업
+    function talk_pop_open (){
+      $(".modal").show(); //팝업 열기
+    }
+
+    // 상단 고정 높이 계산
+    function cal_hgt(){
+      let cal_height = $(".detail_top").outerHeight();
+      $(".p_detail").css("padding-top",cal_height+"px");
+    }
+
+    //이미지 핀치 줌 열기
+    function on_pinchzoom (imgwrap){
+      let img_html = '<div class="pinchzoom_wrap"><img src="#" alt=""></div>';
+      $(".img_box").html(img_html);
+      var el = document.querySelector('div.pinchzoom_wrap');
+      new PinchZoom.default(el, {});
+      let targ_src = $(imgwrap).children("img").attr("src");
+      $(".pinchzoom_wrap img").attr("src",targ_src);
+      $(".img_layer_wrap").addClass("img_on");
+    }
+
+  </script>
+</body>
+</html>

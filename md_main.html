@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>메인 - 매체사(MD)</title>
+<!-- ///////////////////////////////////////////////////////////////////////////////////////////////////
+[META]    -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="title" content="">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="og:title" content="">
+<meta name="og:description" content="">
+<!-- ///////////////////////////////////////////////////////////////////////////////////////////////////
+[TITLE]   -->
+
+    
+
+
+    <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////
+    [VARIABLE] -->
+    
+    
+    
+    <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////
+    [INCLUDE] -->
+    
+    <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////
+    [WEB-SITE] -->
+    <link rel="stylesheet" type="text/css" href="/test/common/css/goad.css?ver=20250903092813" />
+ 
+    
+
+
+    <script type="text/javascript">
+    //<![CDATA[
+        var contextPath      = "/test";
+        var systemCurrDate   = "2025-09-03 09:28:13";
+    //]]>
+    </script>
+    <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////
+    [J-QUERY] -->
+    <script type="text/javascript" src="/test/common/js/jquery-1.12.4.min.js"></script>
+    <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////
+    [CUSTOM]  -->
+    <script type="text/javascript" src="/test/common/js/goad-common.js?ver=20250903092813"></script>
+    <script type="text/javascript" src="/test/common/datepicker/rolldate.min.js?ver=20250903092813"></script>
+
+
+    <script type="text/javascript">
+    $(document).ready(function() {});
+    </script>
+</head>
+<body>
+
+<script type="text/javascript">
+
+</script>
+
+  <div id="header">
+    <div class="hsec1">
+      <div class="container">
+        <h1>
+          <a href="/test/md_main.do"><img src="/test/common/images/hd_logo.png" alt="한국언론진흥재단"/></a>
+        </h1>
+        <div class="gnb">
+          신봉교님<a href="#" onclick="logout();"><span class="blind">로그아웃</span></a>
+        </div>
+        <!--/lnb-->
+      </div>
+    </div>
+    <!--/hsec1-->
+  </div>
+  <!--/header-->
+
+  <div id="main">
+    <div class="p_myWork container">
+
+      <h2 class="h2_sec">나의업무현황</h2>
+
+      <div class="tab_sec">
+
+        <ul class="menu">
+          <li class="on" onclick="return click_md_main_search('UNDONE')"><a href="#none">검수대기</a></li>
+          <li class="" onclick="return click_md_main_search('DONE')"><a href="#none">검수완료</a></li>
+        </ul>
+
+        <!--FORM VALUE S -->
+        <form name="form_md" id="form_md" method="get" action="">
+          <input type="hidden" id="SEARCH_GB" name="SEARCH_GB" value="UNDONE"/>
+          <input type="hidden" id="RQEST_YM" name="RQEST_YM" value="2025-09"/>
+          <input type="hidden" id="EXMNT_NO" name="EXMNT_NO" value=""/>
+        </form>
+        <!--FORM VALUE E -->
+
+        <div class="con on">
+          
+          <!-- s: 250907 total 부분 구조 변경 -->
+
+          <div class="total">
+            <!--조회결과 summary S -->
+            <p class="total_text">총 <span>3</span> 건</p>
+            <!--조회결과 summary E -->
+
+            <div class="list_date">
+              <!-- <span>청구월</span> -->
+              <span id="search_rqest_ym" class="search_rqest_ym">2025-09</span>
+            </div>
+          </div>
+
+          <!-- e: 250907 total 부분 구조 변경 -->
+
+        </div> <!-- <div class="con on"> -->
+        
+        <div class="p_exe container">
+          <!--조회결과 list S -->
+          <!-- 리스트 부분만 스크롤되게 처리 -->
+          <div class="list_sec">
+            <ul>
+
+              <!-- 기존구조
+               <li onclick="click_md_detail('E20250819000007')">
+                <div class="num">25054536 검수대기</div>
+                <div class="subject">
+                  <a href="#" style="padding-right: 5%;">fo생성서명테스트</a>
+                </div>
+                <div class="date">공공시설-공공게시대</div>
+                <div class="cost">0<i>장</i></div>
+              </li>
+              -->
+
+              <!-- s: 250907 li 항목 구조 변경 -->
+              <li onclick="click_md_detail('E20250819000006')">
+                
+                <div class="p_list_top">
+                  <p class="num">
+                    <span class="num_state">검수대기</span>
+                    <span class="num_text">25054530</span>
+                  </p>
+                  <p class="cost">6</p>
+                </div>
+                <p class="subject">
+                  <a href="#">제목이 길면 말줄임 처리가 됩니다 제목이 길면 말줄임 처리가 됩니다 제목이 길면 말줄임 처리가 됩니다</a>
+                </p>
+                <p class="date">공항-기둥</p>
+              </li>
+              <!-- e: 250907 항목 구조 변경 -->
+             
+              <li onclick="click_md_detail('E20250819000006')">
+                
+                <div class="p_list_top">
+                  <p class="num">
+                    <span class="num_state">검수대기</span>
+                    <span class="num_text">25054530</span>
+                  </p>
+                  <p class="cost">6</p>
+                </div>
+                <p class="subject">
+                  <a href="#">fo생성서명테스트</a>
+                </p>
+                <p class="date">공항-기둥</p>
+              </li>
+              <li onclick="click_md_detail('E20250819000006')">
+                
+                <div class="p_list_top">
+                  <p class="num">
+                    <span class="num_state">검수대기</span>
+                    <span class="num_text">25054530</span>
+                  </p>
+                  <p class="cost">6</p>
+                </div>
+                <p class="subject">
+                  <a href="#">fo생성서명테스트</a>
+                </p>
+                <p class="date">공항-기둥</p>
+              </li>
+              <li onclick="click_md_detail('E20250819000006')">
+                
+                <div class="p_list_top">
+                  <p class="num">
+                    <span class="num_state">검수대기</span>
+                    <span class="num_text">25054530</span>
+                  </p>
+                  <p class="cost">6</p>
+                </div>
+                <p class="subject">
+                  <a href="#">fo생성서명테스트</a>
+                </p>
+                <p class="date">공항-기둥</p>
+              </li>
+              <li onclick="click_md_detail('E20250819000006')">
+                
+                <div class="p_list_top">
+                  <p class="num">
+                    <span class="num_state">검수대기</span>
+                    <span class="num_text">25054530</span>
+                  </p>
+                  <p class="cost">6</p>
+                </div>
+                <p class="subject">
+                  <a href="#">fo생성서명테스트</a>
+                </p>
+                <p class="date">공항-기둥</p>
+              </li>
+              <li onclick="click_md_detail('E20250819000006')">
+                
+                <div class="p_list_top">
+                  <p class="num">
+                    <span class="num_state">검수대기</span>
+                    <span class="num_text">25054530</span>
+                  </p>
+                  <p class="cost">6</p>
+                </div>
+                <p class="subject">
+                  <a href="#">fo생성서명테스트</a>
+                </p>
+                <p class="date">공항-기둥</p>
+              </li>
+             
+            
+            </ul>
+          </div> <!-- <div class="list_sec"> -->
+        </div> <!-- <div class="p_exe container"> -->
+
+      </div> <!-- <div class="tab_sec"> -->
+    </div> <!-- <div class="p_myWork container"> -->
+  </div> <!-- <div id="main"> -->
+
+  <!-- 250907 상단 고정방식 css로 동작하는 걸로 수정하여 사용안함 -->
+  <!-- <div class="pop_none_mywork">
+    <div class="pop_header">
+      <div class="pop_hsec1">
+        <div class="pop_container">
+          <h1>
+            <a href="/test/md_main.do"
+              ><img src="/test/common/images/hd_logo.png" alt="한국언론진흥재단"
+            /></a>
+          </h1>
+          <div class="pop_gnb">
+            <a href="#" onclick="logout();">로그아웃</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <h2 class="pop_h2_sec">나의업무현황</h2>
+    <div class="p_myWork">
+      <div class="tab_sec pop_tab_sec">
+        <ul class="menu clear">
+          <li class="on" onclick="return click_md_main_search('UNDONE')"><a href="#none">검수대기</a></li>
+          <li class="" onclick="return click_md_main_search('DONE')"><a href="#none">검수완료</a></li>
+        </ul>
+      </div>
+    </div>
+  </div> -->
+
+  <div id="footer"></div>
+  <!--/footer-->
+
+
+
+
+<script type="text/javascript">
+  $(document).on("pagehide", "div[data-role=page]", function(event){
+    $(event.target).remove();
+  });
+
+  $(document).ready(function() {     
+    var saveItems = ['USR_ID','USR_HNM','USR_DCD','USR_MAST_CD','MNGR_YN','EMAIL_ID','ACCESS_TOKEN'];
+    window.localStorage.clear();
+                
+      if(saveItems.includes('MBPNO')){                             
+        window.localStorage.setItem("MBPNO", "010-3449-5270");
+      }
+                
+      if(saveItems.includes('MNGR_YN')){                             
+        window.localStorage.setItem("MNGR_YN", "Y");
+      }
+                
+      if(saveItems.includes('USR_ID')){                             
+        window.localStorage.setItem("USR_ID", "Uahaxy78fa");
+      }
+                
+      if(saveItems.includes('CO_TEL_NO')){                             
+        window.localStorage.setItem("CO_TEL_NO", "042-546-9657");
+      }
+                
+      if(saveItems.includes('CO_EXT_NBR')){                             
+        window.localStorage.setItem("CO_EXT_NBR", "");
+      }
+                
+      if(saveItems.includes('AD_COP_STATE_CD')){                             
+        window.localStorage.setItem("AD_COP_STATE_CD", "");
+      }
+                
+      if(saveItems.includes('USR_STATE')){                             
+        window.localStorage.setItem("USR_STATE", "A");
+      }
+                
+      if(saveItems.includes('AD_MDIA_CORP_STATE_CD')){                             
+        window.localStorage.setItem("AD_MDIA_CORP_STATE_CD", "ISS405002");
+      }
+                
+      if(saveItems.includes('CORP_STATE_CD')){                             
+        window.localStorage.setItem("CORP_STATE_CD", "ISS405002");
+      }
+                
+      if(saveItems.includes('USE_YN')){                             
+        window.localStorage.setItem("USE_YN", "Y");
+      }
+                
+      if(saveItems.includes('ACCESS_TOKEN')){                             
+        window.localStorage.setItem("ACCESS_TOKEN", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NTY4NTk0NzMsImlhdCI6MTc1Njg1OTI5MywidXNlcklkIjoiVWFoYXh5NzhmYSJ9.0M7zn_VAMRSKgvFHNK17xJ-MFM41_jScwEMRMRKZFHo");
+      }
+                
+      if(saveItems.includes('USR_DCD')){                             
+        window.localStorage.setItem("USR_DCD", "MD");
+      }
+                
+      if(saveItems.includes('EMAIL_ID')){                             
+        window.localStorage.setItem("EMAIL_ID", "daehankg@hanmail.net");
+      }
+                
+      if(saveItems.includes('SESSION_ID')){                             
+        window.localStorage.setItem("SESSION_ID", "11297AAE6031F2B0FCC26B09D7037380");
+      }
+                
+      if(saveItems.includes('USR_MAST_CD')){                             
+        window.localStorage.setItem("USR_MAST_CD", "C024057000");
+      }
+                
+      if(saveItems.includes('USR_HNM')){                             
+        window.localStorage.setItem("USR_HNM", "신봉교");
+      }
+                
+      if(saveItems.includes('SYSDTM')){                             
+        window.localStorage.setItem("SYSDTM", "2025-09-03 09:28:13");
+      }
+    
+
+    var lang = {
+            title: '선택',
+            cancel: '취소',
+            confirm: '확인',
+            year: '년',
+            month: '월',
+            day: '일',
+            hour: '시',
+            min: '분',
+            sec: '초'
+        };
+
+    //청구월클릭
+    $(".search_rqest_ym").on("click", function () {
+      rd1.show();
+    });
+    var rd1 = new Rolldate({
+        el: '#search_rqest_ym',
+        format: 'YYYY-MM',
+        beginYear: 2025,
+        endYear: 2030,
+        lang: lang,
+        value: '2025-09',
+        confirm: function(date) {
+            $('#search_rqest_ym').text(date);
+            $('#RQEST_YM').val(date);
+            click_md_main_search('UNDONE');
+        }
+    });
+
+    // 250907 스크롤 동작 추가
+    $(".list_sec").on("scroll",function(){
+      if( $(".list_sec").scrollTop() > 0){
+        if( !$(".p_exe").hasClass("scrolled") ){
+          $(".p_exe").addClass("scrolled");
+        }
+      } else {
+        $(".p_exe").removeClass("scrolled");
+      }
+    });
+      
+  });
+  
+  
+  function click_md_main_search(search_gb) {
+    $("#SEARCH_GB").val(search_gb);
+    document.form_md.action = "/test/md_main.do";
+    document.form_md.submit();
+  }
+  
+  function logout() {
+    $("<input />").attr("type", "hidden").attr("name", "__EMAIL_ID").attr("value", window.localStorage.getItem('EMAIL_ID')).appendTo("#form_md");
+    $("<input />").attr("type", "hidden").attr("name", "__ACCESS_TOKEN").attr("value", window.localStorage.getItem('ACCESS_TOKEN')).appendTo("#form_md");
+    window.localStorage.clear();
+    location.href = "logout.do";
+  }
+  
+  function click_md_detail(exmntNo) {
+	    $("#EXMNT_NO").val(exmntNo);
+	    document.form_md.action = "/test/md_detail.do";
+	    document.form_md.submit();
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>검수사진 촬영 - 매체사(MD)</title>
+<!-- ///////////////////////////////////////////////////////////////////////////////////////////////////
+[META]    -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="title" content="">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="og:title" content="">
+<meta name="og:description" content="">
+<!-- ///////////////////////////////////////////////////////////////////////////////////////////////////
+[TITLE]   -->
+
+    
+
+
+    <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////
+    [VARIABLE] -->
+    
+    
+    
+    <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////
+    [INCLUDE] -->
+    
+    <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////
+    [WEB-SITE] -->
+    <link rel="stylesheet" type="text/css" href="/test/common/css/goad.css?ver=20250903191254">
+ 
+    
+
+
+    <script type="text/javascript">
+    //<![CDATA[
+        var contextPath      = "/test";
+        var systemCurrDate   = "2025-09-03 19:12:54";
+    //]]>
+    </script>
+    <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////
+    [J-QUERY] -->
+    <script type="text/javascript" src="/test/common/js/jquery-1.12.4.min.js"></script>
+    <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////
+    [CUSTOM]  -->
+    <script type="text/javascript" src="/test/common/js/goad-common.js?ver=20250903191254"></script>
+    <script type="text/javascript" src="/test/common/datepicker/rolldate.min.js?ver=20250903191254"></script>
+
+    <script type="text/javascript">
+    $(document).ready(function() {});
+    </script>
+<script src="https://cdn.jsdelivr.net/npm/piexifjs"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+<script>
+	function click_md_detail() {
+		document.form_md.action = "/test/md_detail.do";
+		document.form_md.submit();
+	}
+</script>
+</head>
+<body>
+    <form name="form_md" id="form_md" method="post" action="">
+        <input type="hidden" id="EXMNT_NO" name="EXMNT_NO" value="E20250819000006">
+        <input type="hidden" id="EXMNT_ASSIGNED" name="EXMNT_ASSIGNED" value="">
+        <input type="hidden" id="EXMNT_MANAGER" name="EXMNT_MANAGER" value="">
+        <input type="hidden" id="EXMNT_ASSIGNEE" name="EXMNT_ASSIGNEE" value="">
+    </form>
+	
+    <div id="header">
+        <div class="hsec1">
+            <div class="container">
+                <h1>
+                    <a href="/test/md_main.do"><img src="/test/common/images/hd_logo.png" alt="한국언론진흥재단"/></a>
+                </h1>
+                <div class="gnb">
+                    신봉교님<a href="#" onclick="logout();"><span class="blind">로그아웃</span></a>
+                </div>
+                <!--/lnb-->
+            </div>
+        </div>
+    <!--/hsec1-->
+    </div>
+  
+
+    <div id="main" class="sub_page">
+
+        <a class="prev_page" href="javascript:void(0)" onclick="click_md_detail()">돌아가기</a>
+
+        <div class="p_snap">
+
+            <div class="round_box">
+
+                <!-- 미리보기 컨테이너 : preview_box에 show_prev 클래스가 붙으면 이미지가 보이게 됨(스크립트에서 처리) -->
+                <div class="preview_box">
+
+                    <div class="preview_bg">
+                        <p class="desc_lg">현재 사진이 없습니다.</p>
+                        <p class="desc_sm">(사진을 촬영하면 이곳에 표시됩니다.)</p>
+                    </div>
+
+                    <!-- 기본이미지는 사용안함 src를 비워둬도 무방함 -->
+                    <img id="preview" src="/test/common/images/hd_logo.png" alt="촬영된 이미지 미리보기">
+
+                    <!-- 진행중 오버레이 (이미지 처리 등) -->
+                    <div class="progress_bg" id="progressOverlay">
+                        <p class="desc_lg">사진 로딩중</p>
+                    </div>
+
+                    <!-- GPS 정보 수집 오버레이 -->
+                    <div class="gps_bg" id="gpsOverlay">
+                        <p class="desc_lg">GPS 정보 확인중</p>
+                    </div>
+                </div>
+
+                <div class="snap_btns">
+                    <!-- 후면 카메라를 위한 숨겨진 파일 입력 -->
+                    <input type="file" id="capture" accept="image/*" capture="environment" style="display: none;">
+
+                    <button type="button" class="pic_ex" id="takePhoto">사진촬영</button>
+                    <button type="button" id="uploadPhoto">서버전송</button>
+                </div>
+
+            </div>
+            
+        </div>
+    </div>
+
+	<!-- 모달 팝업 -->
+	<div id="modal" class="modal">
+		<div class="modal-content">
+            <h4>서버 전송 정보 입력</h4>
+            <div class="input_block">
+                <!-- input id와 label for는 같은 걸로(중복없게) 들어가야 합니다. -->
+                <label for="inputLocation">매체 위치</label>
+                <input type="text" id="inputLocation" placeholder="예: 용산역 대합실 6번 조명광고"> 
+            </div>
+            <div class="input_block">
+                <!-- input id와 label for는 같은 걸로(중복없게) 들어가야 합니다. -->
+                <label for="captureDate">촬영 일시</label>
+                <input type="text" id="captureDate" readonly> 
+            </div>
+            <div class="input_block">
+                <!-- input id와 label for는 같은 걸로(중복없게) 들어가야 합니다. -->
+                <label for="capturePlace">촬영 장소</label>
+                <textarea id="capturePlace" placeholder="API에서 채워집니다." readonly></textarea>
+                
+                <!-- figma설계대로 textarea로 변경하였으나 아래와 같이 input으로도 사용가능.
+                <input type="text" id="capturePlace" placeholder="API에서 채워집니다." readonly> -->
+            </div>
+            <div class="pop_bottom_btns">
+                <button class="pop_btn is_confirm" id="confirmUpload">확인</button>
+                <button class="pop_btn" id="cancelUpload">취소</button>
+            </div>
+		</div>
+	</div>
+	
+	<script>
+	//const loginInfo = '{MBPNO=010-3449-5270, MNGR_YN=Y, USR_ID=Uahaxy78fa, CO_TEL_NO=042-546-9657, CO_EXT_NBR=null, AD_COP_STATE_CD=null, USR_STATE=A, AD_MDIA_CORP_STATE_CD=ISS405002, CORP_STATE_CD=ISS405002, USE_YN=Y, ACCESS_TOKEN=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NTY4OTQ1NTQsImlhdCI6MTc1Njg5NDM3NCwidXNlcklkIjoiVWFoYXh5NzhmYSJ9.xSEP9ZUUfntuqvjlE1706toXMLj9AOJ2ZFJiGCEqoHw, USR_DCD=MD, EMAIL_ID=daehankg@hanmail.net, SESSION_ID=2FF49077DDB5BC7B93615F19A168E829, USR_MAST_CD=C024057000, USR_HNM=신봉교, SYSDTM=2025-09-03 19:12:54}';
+	//console.log('loginInfo', loginInfo);
+	
+    let currentImageDataURL = ''; // 가공된 최종 이미지 데이터URL 저장
+    const previewImg = document.getElementById('preview');
+    const captureInput = document.getElementById('capture');
+    const takePhotoButton = document.getElementById('takePhoto');
+    const uploadPhotoButton = document.getElementById('uploadPhoto');
+
+    // 모달 관련 요소
+    const modal = document.getElementById('modal');
+    const inputLocation = document.getElementById('inputLocation');
+    const captureDate = document.getElementById('captureDate');
+    const capturePlace = document.getElementById('capturePlace');
+    const confirmUpload = document.getElementById('confirmUpload');
+    const cancelUpload = document.getElementById('cancelUpload');
+
+    // 진행중 오버레이 요소 (이미지 처리)
+    const progressOverlay = document.getElementById('progressOverlay');
+    // GPS 정보 수집 오버레이 요소
+    const gpsOverlay = document.getElementById('gpsOverlay');
+
+    // GPS 정보를 저장할 변수와 타임스탬프 (3분=180000ms)
+    let currentGPS = null;
+    let currentGPSTimestamp = null;
+
+    // 버튼 활성/비활성화 함수
+    function disableButtons(disable) {
+        takePhotoButton.disabled = disable;
+        uploadPhotoButton.disabled = disable;
+    }
+
+    // 진행중 상태 (이미지 처리) 표시 및 버튼 비활성화
+    function showProgress() {
+        progressOverlay.style.display = "block";    // 250906 block으로 수정
+        disableButtons(true);
+        console.log("이미지 처리 진행중 시작: " + new Date().toISOString());
+    }
+
+    // 진행중 상태 (이미지 처리) 숨김 및 버튼 활성화
+    function hideProgress() {
+        progressOverlay.style.display = "none";
+        disableButtons(false);
+        console.log("이미지 처리 진행중 종료: " + new Date().toISOString());
+    }
+
+    // GPS 수집 중 상태 표시 및 버튼 비활성화
+    function showGPSOverlay() {
+        gpsOverlay.style.display = "block";      // 250906 block으로 수정
+        disableButtons(true);
+        console.log("GPS 수집중 시작: " + new Date().toISOString());
+    }
+
+    // GPS 수집 중 상태 숨김 및 버튼 활성화
+    function hideGPSOverlay() {
+        gpsOverlay.style.display = "none";
+        disableButtons(false);
+        console.log("GPS 수집중 종료: " + new Date().toISOString());
+    }
+
+    // 모바일 기기 여부 확인 함수
+    function isMobileDevice() {
+        const { userAgent, maxTouchPoints } = window.navigator;
+        const isML = /Macintosh|Linux/i.test(userAgent);
+        if (isML && maxTouchPoints > 0) return true;
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobi|mobi|Tablet|tablet/i.test(userAgent);
+    }
+    
+    /**
+     * DMS(도,분,초) → 10진수 변환
+     * @param {Array} coord  [도, 분, 초] 형태의 배열
+     * @param {string} ref   'N', 'S', 'E', 'W'
+     * @returns {number}     10진수 좌표
+     */
+	function toDecimal(coord, ref) {
+		if (!coord) return null;
+		
+		// 분, 초가 없을 경우 0 처리
+		const degrees = (coord[0][0] / coord[0][1]) || 0;
+		const minutes = (coord[1][0] / coord[1][1]) || 0;
+		const seconds = (coord[2][0] / coord[2][1]) || 0;
+		
+		let decimal = degrees + (minutes / 60) + (seconds / 3600);
+		
+		// 남반구(S) 또는 서경(W)은 음수
+		if (ref === 'S' || ref === 'W') {
+			decimal = -decimal;
+		}
+		
+		return decimal;
+	}
+
+    // 역 지오코딩 함수 (OpenStreetMap Nominatim 사용)
+    function reverseGeocodeAndFillCapturePlace(lat, lon) {
+        console.log("역 지오코딩 시작: " + new Date().toISOString(), "lat:", lat, "lon:", lon);
+        const url = 'https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=' + lat + '&lon=' + lon;
+        
+        fetch(url, { headers: { 'User-Agent': 'YourAppName/1.0' } })
+            .then(response => response.json())
+            .then(data => {
+                console.log("역 지오코딩 응답 도착: " + new Date().toISOString(), data);
+                const address = data.address || {};
+                let placeStr = "";
+                if (address.country) placeStr += address.country;
+                if (address.city) placeStr += ", " + address.city;
+                if (address.borough) placeStr += ", " + address.borough;
+                if (address.suburb) placeStr += ", " + address.suburb;
+                if (address.quarter) placeStr += ", " + address.quarter;
+                capturePlace.value = placeStr;
+            })
+            .catch(error => {
+                console.error("역 지오코딩 에러:", error, new Date().toISOString());
+                alert('주소 변환 오류 발생');
+            });
+    }
+    
+    // AES 암호화
+	function encryptJson(jsonObj) {
+        const secretKey16 = "1234567890abcdef";
+        const key = CryptoJS.enc.Utf8.parse(secretKey16);
+		const iv = CryptoJS.lib.WordArray.random(16);
+		const jsonStr = JSON.stringify(jsonObj);
+		
+		const encrypted = CryptoJS.AES.encrypt(
+			jsonStr,
+			key,
+			{ iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }
+		);
+		
+		const cipherBase64 = encrypted.ciphertext.toString(CryptoJS.enc.Base64);
+		const ivBase64 = iv.toString(CryptoJS.enc.Base64);
+		
+		return { cipherBase64, ivBase64 };
+	}
+
+    // "사진 촬영" 버튼 클릭 시 모바일 기기 여부 확인
+    takePhotoButton.addEventListener('click', () => {
+        if (!isMobileDevice()) {
+            alert("모바일 기기에서만 사용가능합니다.");
+            return;
+        }
+        
+		// 초기화
+		currentGPS = null;
+		inputLocation.value = '';
+		captureDate.value = '';
+		capturePlace.value = '';
+
+        // 250907 클래스로 이미지 보이는 동작으로 인해 추가
+        $(".preview_box").removeClass("show_prev");
+
+    	if (navigator.geolocation) {
+    		showGPSOverlay();
+    		navigator.geolocation.getCurrentPosition(
+    			(position) => { 
+    				// 성공 시 실행
+           			hideGPSOverlay();
+           			currentGPS = { lt: position.coords.latitude, lg: position.coords.longitude };
+    				captureInput.click();
+    			},
+    			(error) => {
+    				// 실패 시 실행
+    				hideGPSOverlay();
+    				if (error.code === 1) {
+    					console.log("PERMISSION_DENIED: 사용자가 위치 정보 접근을 거부함");
+    					alert('디바이스의 위치 기능을 허용해주세요.');
+    				} else {
+    					alert(error.code + " " + error.message);
+    					captureInput.click();
+    				}
+    			},
+    			{
+    				enableHighAccuracy: false,
+    				timeout: 7000,
+    				maximumAge: 0
+    			}
+    		);
+    	} else {
+    		alert("이 브라우저는 Geolocation을 지원하지 않습니다.");
+    	}
+    });
+
+    // 파일 입력 이벤트: 이미지 파일 선택 시 처리 시작
+    captureInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+        
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+            const exifObj = piexif.load(e.target.result);
+            console.log('exifObj', exifObj);
+            
+            // 촬영일시
+            const dateTime = exifObj["Exif"][piexif.ExifIFD.DateTimeOriginal];
+            captureDate.value = dateTime.replace(/^(\d{4}):(\d{2}):(\d{2})/, "$1-$2-$3");
+            
+            // 촬영위치
+            if (currentGPS) {
+            	console.log('currentGPS: ' + currentGPS.lt + " " + currentGPS.lg);
+            	reverseGeocodeAndFillCapturePlace(currentGPS.lt, currentGPS.lg);
+            	processImage(e.target.result);
+            } else {
+                if (navigator.geolocation) {
+                	showGPSOverlay();
+                	navigator.geolocation.getCurrentPosition(
+                		(position) => { 
+                			// 성공 시 실행
+                			currentGPS = { lt: position.coords.latitude, lg: position.coords.longitude };
+                			alert('NAVIGATOR: ' + currentGPS.lt + " " + currentGPS.lg);
+                			reverseGeocodeAndFillCapturePlace(currentGPS.lt, currentGPS.lg);
+                			hideGPSOverlay();
+                			processImage(e.target.result);
+                		},
+                		(error) => {
+                			// 실패 시 실행
+                			console.log('navigator error', error);
+                			alert('NAVIGATOR ERROR ' + error.code + ' ' + error.message);
+                			getExifGps(exifObj, e.target.result);
+                		},
+                		{
+                			enableHighAccuracy: false,
+                			timeout: 7000,				// 타임아웃 7초
+                			maximumAge: 0				// 캐시 사용안함(항상 최신 위치)
+                		}
+                	);
+                } else {
+                	alert('NAVIGATOR GPS 정보가 없습니다.');
+                	getExifGps(exifObj, e.target.result);
+                }
+            }
+       
+        };
+        
+        reader.readAsDataURL(file);
+    });
+    
+    // EXIF GPS 정보 조회
+    function getExifGps(exifObj, dataURL) {
+		const gps = exifObj["GPS"];
+		console.log('gps', gps);
+		if (gps && gps[piexif.GPSIFD.GPSLatitude] && gps[piexif.GPSIFD.GPSLongitude]) {
+			const lat = toDecimal(gps[piexif.GPSIFD.GPSLatitude], gps[piexif.GPSIFD.GPSLatitudeRef]);	// 위도
+			const lon = toDecimal(gps[piexif.GPSIFD.GPSLongitude], gps[piexif.GPSIFD.GPSLongitudeRef]);	// 경도
+			currentGPS = { lt: lat, lg: lon };
+			alert('EXIF: ' + currentGPS.lt + " " + currentGPS.lg);
+			reverseGeocodeAndFillCapturePlace(currentGPS.lt, currentGPS.lg);
+		} else {
+			alert('EXIF GPS 정보가 없습니다.');
+		}
+		
+		hideGPSOverlay();
+		processImage(dataURL);
+    }
+
+    // 이미지 처리 함수: 캔버스에 원본 이미지, 좌측 상단 GPS 텍스트, 우측 하단 워터마크 추가
+    function processImage(dataURL) {
+        showProgress();
+        const image = new Image();
+        image.onload = function() {
+            const canvas = document.createElement('canvas');
+            canvas.width = image.width;
+            canvas.height = image.height;
+            const ctx = canvas.getContext('2d');
+
+            // 원본 이미지 그리기
+            ctx.drawImage(image, 0, 0);
+
+            // 우측 하단에 "KPF" 워터마크 추가 (폰트 크기 300px)
+            const watermarkText = "한국언론진흥재단-" + captureDate.value;
+            ctx.font = "50px Arial";
+            ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
+            const textWidth = ctx.measureText(watermarkText).width;
+            const x = image.width - textWidth - 20;
+            const y = image.height - 20;
+            ctx.fillText(watermarkText, x, y);
+
+            const newDataURL = canvas.toDataURL("image/jpeg");
+            
+            currentImageDataURL = newDataURL;
+            previewImg.src = currentImageDataURL;
+            console.log("processImage 완료: " + new Date().toISOString());
+
+            hideProgress();
+
+            // 250907 클래스로 이미지 보이는 동작으로 인해 추가
+            $(".preview_box").addClass("show_prev");
+        };
+        image.src = dataURL;
+    }
+
+    // "서버 전송" 버튼 클릭 시 모달 팝업 호출
+    uploadPhotoButton.addEventListener('click', () => {
+        if (!currentImageDataURL) {
+            alert("먼저 사진을 촬영해주세요.");
+            return;
+        }
+        
+        modal.style.display = "block";
+    });
+
+    // 모달 "확인" 버튼 클릭 시 서버 전송 실행
+    confirmUpload.addEventListener('click', () => {
+    	if (!inputLocation.value) {
+    		alert('매체 위치를 입력하세요.');
+    		return;
+    	}
+    	
+        modal.style.display = "none";
+        fetch(currentImageDataURL)
+            .then(res => res.blob())
+            .then(blob => {
+                const params = {
+                	deviceInfo: navigator.userAgent,
+                	gpsInfo: currentGPS ? JSON.stringify(currentGPS) : "",
+                	inputLocation: inputLocation.value,
+                	captureDate: captureDate.value,
+                	capturePlace: capturePlace.value,
+                	exmntNo: 'E20250819000006',
+                	exmntAssigned: '',		// 검수위임여부
+                	exmntManager: '',		// 검수위임자
+                	exmntAssignee: ''		// 검수수임자 연락처
+                };
+                
+                const { cipherBase64, ivBase64 } = encryptJson(params);
+                
+                const formData = new FormData();
+                formData.append('photo', blob, 'photo.jpg');
+                formData.append('data', cipherBase64);
+                formData.append('iv', ivBase64);
+                formData.append('EXMNT_ASSIGNED', '');
+                
+                fetch(`/test/api/md/exmnt/photo.ajax`, { method: 'POST', body: formData })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("서버 전송 완료: " + new Date().toISOString(), data);
+                        if (data.status && data.status === "success") {
+                            alert("사진 전송 완료");
+                        } else {
+                            const errorMsg = data.message || "서버 오류가 발생하였습니다.";
+                            alert("오류 발생: " + errorMsg);
+                        }
+                        
+                        // 초기화
+                        currentImageDataURL = '';
+
+                        // 250907 클래스로 이미지 보이는 동작으로 인해 추가
+                        $(".preview_box").removeClass("show_prev");
+
+                        previewImg.src = "img/default_photo.png";
+                    })
+                    .catch(error => {
+                        console.error("전송 에러:", error, new Date().toISOString());
+                        alert("사진 전송 중 에러 발생");
+                    });
+            });
+    });
+
+    // 모달 "취소" 버튼 클릭 시 모달 닫기
+    cancelUpload.addEventListener('click', () => {
+        modal.style.display = "none";
+    });
+
+
+
+    // 250907 스크롤 동작 추가
+    $(function(){
+        $(".p_snap").on("scroll",function(){
+        if( $(".p_snap").scrollTop() > 10){
+            if( !$(".p_snap").hasClass("scrolled") ){
+            $(".p_snap").addClass("scrolled");
+            }
+        } else {
+            $(".p_snap").removeClass("scrolled");
+        }
+        });
+    });
+	</script>
+
+
+</body>
+</html>
